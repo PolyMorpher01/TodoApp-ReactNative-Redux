@@ -1,71 +1,60 @@
 import React, { Component } from "react";
 import { FlatList, View, StyleSheet } from "react-native";
-import { createStore } from "redux";
+import { connect } from "react-redux";
 
 import AddTodo from "../components/AddTodo";
 import TodoListItem from "../components/TodoListItem";
 import color from "../constants/color";
-import rootReducer from "../redux/reducers";
 import { addTodo, toggleTodo, deleteTodo } from "../redux/actions";
 
-const store = createStore(
-  rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+const mapStateToProps = state => {
+  return {
+    todoList: state.todos
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    saveTodo: task => {
+      dispatch(addTodo(task));
+    },
+
+    toggleTodo: id => {
+      dispatch(toggleTodo(id));
+    },
+
+    deleteTodo: id => {
+      dispatch(deleteTodo(id));
+    }
+  };
+};
 
 class TodoList extends Component {
   static navigationOptions = { title: "Todos" };
-
-  componentDidMount() {
-    this.unsubscribe = store.subscribe(() => this.forceUpdate());
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  saveTodo = task => {
-    store.dispatch(addTodo(task));
-  };
-
-  toggleTodo = id => {
-    store.dispatch(toggleTodo(id));
-  };
-
-  deleteTodo = id => {
-    store.dispatch(deleteTodo(id));
-  };
-
   showDetail = todo => {
     this.props.navigation.navigate("Detail", {
-      todo,
-      store
+      todo
     });
   };
 
   render() {
-    let todoList = store.getState().todos;
     return (
       <View style={styles.container}>
         <FlatList
-          data={todoList}
+          data={this.props.todoList}
           renderItem={({ item }) => (
             <TodoListItem
-              store={store}
               todo={item}
-              onDeleteTodo={this.deleteTodo}
+              onDeleteTodo={this.props.deleteTodo}
               onShowDetail={this.showDetail}
-              toggleTodo={this.toggleTodo}
+              toggleTodo={this.props.toggleTodo}
             />
           )}
           keyExtractor={item => item.id.toString()}
         />
 
         <View style={{ backgroundColor: color.VERY_LIGHT_GREY }}>
-          <AddTodo
-            updateTodoList={this.updateTodoList}
-            saveTodo={this.saveTodo}
-          />
+          <AddTodo saveTodo={this.props.saveTodo} />
         </View>
       </View>
     );
@@ -95,4 +84,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TodoList;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoList);

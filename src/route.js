@@ -1,7 +1,7 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
 import { TodoList, Detail } from "./screens";
-import Color from "./constants/Color";
+import color from "./constants/color";
 
 const AppNavigator = createStackNavigator(
   {
@@ -16,9 +16,9 @@ const AppNavigator = createStackNavigator(
     initialRouteName: "Home",
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: Color.APP_THEME
+        backgroundColor: color.APP_THEME
       },
-      headerTintColor: Color.WHITE,
+      headerTintColor: color.WHITE,
       headerTitleStyle: {
         fontWeight: "bold"
       }

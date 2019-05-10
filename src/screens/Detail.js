@@ -6,8 +6,10 @@ import {
   TextInput,
   TouchableHighlight
 } from "react-native";
+
 import color from "../constants/color";
 import { updateTodo } from "../redux/actions";
+import { connect } from "react-redux";
 
 class Detail extends Component {
   static navigationOptions = {
@@ -15,7 +17,7 @@ class Detail extends Component {
   };
 
   state = {
-    task: null,
+    task: null
   };
 
   todo = this.props.navigation.getParam("todo", null);
@@ -27,16 +29,9 @@ class Detail extends Component {
   }
 
   updateTodo = () => {
-    const store = this.props.navigation.getParam("store", null);
-    store.dispatch(updateTodo(this.todo.id, this.state.task));
-    this.props.navigation.goBack();
+    console.log("update");
+    this.props.dispatch(updateTodo(this.todo.id, this.state.task));
   };
-
-  changeCompletedStatus() {
-    this.setState({
-      isCompleted: !this.state.isCompleted
-    });
-  }
 
   render() {
     let completedStatus = "Not Completed";
@@ -67,8 +62,11 @@ class Detail extends Component {
 
         <TouchableHighlight
           style={styles.button}
-          onPress={this.updateTodo}
-          underlayColor={Color.BUTTON_UNDERLAY}
+          onPress={() => {
+            this.updateTodo();
+            this.props.navigation.goBack();
+          }}
+          underlayColor={color.BUTTON_UNDERLAY}
         >
           <Text style={styles.buttonText}>Save</Text>
         </TouchableHighlight>
@@ -99,7 +97,6 @@ const styles = StyleSheet.create({
   isCompletedContainer: {
     marginTop: 10,
     marginBottom: 10,
-    // flex: 1,
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "flex-start"
@@ -124,4 +121,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Detail;
+export default connect()(Detail);

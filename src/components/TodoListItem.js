@@ -12,7 +12,6 @@ import CheckBox from "./CheckBox";
 import color from "../constants/color";
 
 class TodoListItem extends Component {
-
   renderMenu = todo => {
     return (
       <Menu>
@@ -35,7 +34,7 @@ class TodoListItem extends Component {
 
   render() {
     let todo = this.props.todo;
-    let color = todo.isCompleted ? color.LIGHT_GREY : color.BLACK;
+    let textColor = todo.isCompleted ? color.LIGHT_GREY : color.BLACK;
     let textDecorationLine = todo.isCompleted ? "line-through" : "none";
     return (
       <TouchableHighlight
@@ -52,7 +51,7 @@ class TodoListItem extends Component {
           <Text
             style={[
               styles.itemText,
-              { color: color, textDecorationLine: textDecorationLine }
+              { color: textColor, textDecorationLine: textDecorationLine }
             ]}
           >
             {todo.task}
