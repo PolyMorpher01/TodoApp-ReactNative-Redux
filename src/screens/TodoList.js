@@ -1,15 +1,27 @@
 import React, { Component } from "react";
-import { FlatList, View, StyleSheet } from "react-native";
+import { FlatList, View, StyleSheet, Button } from "react-native";
 import { connect } from "react-redux";
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger
+} from "react-native-popup-menu";
 
 import AddTodo from "../components/AddTodo";
 import TodoListItem from "../components/TodoListItem";
 import color from "../constants/color";
-import { addTodo, toggleTodo, deleteTodo } from "../redux/actions";
+import {
+  addTodo,
+  toggleTodo,
+  deleteTodo,
+  setVisibilityFilter
+} from "../redux/actions";
+import visibilityFilter from "../redux/constants/visibilityFilter";
 
 const mapStateToProps = state => {
   return {
-    todoList: state.todos
+    todoList: getVisibleTodos(state.todos, state.visibilityFilter)
   };
 };
 
@@ -25,17 +37,74 @@ const mapDispatchToProps = dispatch => {
 
     deleteTodo: id => {
       dispatch(deleteTodo(id));
+    },
+
+    setVisibilityFilter: filter => {
+      dispatch(setVisibilityFilter(filter));
     }
   };
 };
 
+const getVisibleTodos = (todos, filter) => {
+  switch (filter) {
+    case visibilityFilter.SHOW_ALL:
+      return todos;
+    case visibilityFilter.SHOW_COMPLETED:
+      return todos.filter(todo => todo.isCompleted);
+    case visibilityFilter.SHOW_ACTIVE:
+      return todos.filter(todo => !todo.isCompleted);
+  }
+};
+
 class TodoList extends Component {
-  static navigationOptions = { title: "Todos" };
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: "Todos",
+      headerRight: navigation.getParam("renderFilterMenu")
+    };
+  };
   showDetail = todo => {
     this.props.navigation.navigate("Detail", {
       todo
     });
   };
+
+  componentDidMount() {
+    this.props.navigation.setParams({
+      renderFilterMenu: this.renderFilterMenu()
+    });
+  }
+
+  renderFilterMenu() {
+    return (
+      <Menu>
+        <MenuTrigger text="..." style={{ padding: 10 }} />
+        <MenuOptions>
+          <MenuOption
+            onSelect={() =>
+              this.props.setVisibilityFilter(visibilityFilter.SHOW_ALL)
+            }
+            text="Show All"
+            style={{ padding: 10 }}
+          />
+          <MenuOption
+            onSelect={() =>
+              this.props.setVisibilityFilter(visibilityFilter.SHOW_ACTIVE)
+            }
+            text="Show Active"
+            style={{ padding: 10 }}
+          />
+          <MenuOption
+            onSelect={() =>
+              this.props.setVisibilityFilter(visibilityFilter.SHOW_COMPLETED)
+            }
+            text="Show Completed"
+            style={{ padding: 10 }}
+          />
+        </MenuOptions>
+      </Menu>
+    );
+  }
 
   render() {
     return (
@@ -81,6 +150,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     padding: 4
+  },
+  menuOption: {
+    padding: 10
   }
 });
 
