@@ -18,12 +18,12 @@ class TodoListItem extends Component {
         <MenuTrigger text="..." style={{ padding: 8 }} />
         <MenuOptions>
           <MenuOption
-            onSelect={() => this.props.onShowDetail(todo)}
+            onSelect={() => this.props.showDetail(todo)}
             text="View Detail"
             style={styles.menuOption}
           />
           <MenuOption
-            onSelect={() => this.props.onDeleteTodo(todo.id)}
+            onSelect={() => this.props.deleteTodo(todo.id)}
             text="Delete"
             style={styles.menuOption}
           />
@@ -94,8 +94,11 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TodoListItem;
-
 TodoListItem.prototypes = {
-  todo: PropTypes.object.isRequired
+  todo: PropTypes.object.isRequired,
+  toggleTodo: PropTypes.func.isRequired,
+  deleteTodo: PropTypes.func.isRequired,
+  showDetail: PropTypes.func.isRequired,
 };
+
+export default TodoListItem;

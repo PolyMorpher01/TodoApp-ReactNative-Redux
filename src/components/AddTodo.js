@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { TextInput, StyleSheet, View } from "react-native";
+import PropTypes from "prop-types";
 
 import color from "../constants/color";
 
@@ -34,7 +35,8 @@ class AddTodo extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 10
+    backgroundColor: color.VERY_LIGHT_GREY,
+    padding: 12
   },
   textInput: {
     padding: 10,
@@ -65,5 +67,9 @@ const styles = StyleSheet.create({
     marginBottom: 10
   }
 });
+
+AddTodo.prototypes = {
+  saveTodo: PropTypes.func.isRequired,
+};
 
 export default AddTodo;

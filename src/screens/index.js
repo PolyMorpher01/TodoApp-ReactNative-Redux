@@ -1,7 +1,4 @@
-import Detail from './Detail';
-import TodoList from './TodoList';
+import Detail from "./Detail";
+import Home from "./Home";
 
-export {
-    Detail,
-    TodoList
-}
+export { Detail, Home };

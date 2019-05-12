@@ -1,12 +1,12 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
-import { TodoList, Detail } from "./screens";
+import { Home, Detail } from "./screens";
 import color from "./constants/color";
 
 const AppNavigator = createStackNavigator(
   {
     Home: {
-      screen: TodoList
+      screen: Home
     },
     Detail: {
       screen: Detail
