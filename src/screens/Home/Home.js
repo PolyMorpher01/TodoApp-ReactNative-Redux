@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import {
   Menu,
   MenuOptions,
@@ -8,11 +8,11 @@ import {
 } from "react-native-popup-menu";
 import { connect } from "react-redux";
 
-import TodoList from "../contianers/TodoList";
-import AddTodo from "../contianers/AddTodo";
-import color from "../constants/color";
-import visibilityFilter from "../redux/constants/visibilityFilter";
-import { setVisibilityFilter } from "../redux/actions";
+import TodoList from "../../containers/TodoList";
+import AddTodo from "../../containers/AddTodo";
+import styles from "./style";
+import visibilityFilter from "../../redux/constants/visibilityFilter";
+import { setVisibilityFilter } from "../../redux/actions";
 
 class Home extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -80,13 +80,5 @@ class Home extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    backgroundColor: color.WHITE
-  }
-});
 
 export default connect()(Home);

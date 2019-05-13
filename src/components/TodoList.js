@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FlatList } from "react-native";
 
-import TodoItem from "../contianers/TodoItem";
+import TodoItem from "../containers/TodoItem";
 
 class TodoList extends Component {
   render() {
