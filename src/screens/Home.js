@@ -75,7 +75,7 @@ class Home extends Component {
     return (
       <View style={styles.container}>
         <TodoList showDetail={this.showDetail} />
-        <AddTodo saveTodo={this.props.saveTodo} />
+        <AddTodo />
       </View>
     );
   }
