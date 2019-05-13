@@ -35,6 +35,8 @@ const todo = (state, action) => {
 const todos = (state = [], action) => {
   switch (action.type) {
     case actionType.ADD_TODO:
+      let maximumId = getMaxId(state);
+      action.id = ++maximumId;
       return [...state, todo(undefined, action)];
 
     case actionType.TOGGLE_TODO:
@@ -51,6 +53,11 @@ const todos = (state = [], action) => {
     default:
       return state;
   }
+};
+
+getMaxId = state => {
+  if (state === null || Object.entries(state).length === 0) return 0;
+  return Math.max.apply(Math, state.map(s => s.id), 1);
 };
 
 export default todos;
