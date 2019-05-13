@@ -6,8 +6,8 @@ import { MenuProvider } from "react-native-popup-menu";
 import storage from "redux-persist/lib/storage";
 import { PersistGate } from "redux-persist/integration/react";
 
-import NavigationContainer from "./src/route";
-import rootReducer from "./src/redux/reducers";
+import NavigationContainer from "./route";
+import rootReducer from "./redux/reducers";
 
 const persistConfig = {
   key: "root",
